@@ -14,7 +14,7 @@ fringe = []
 visitedStates = []
 solutions = []
 
-fHeu = True
+fHeu = None
 
 def stateAlreadyVisited(kState):
     """
@@ -52,13 +52,19 @@ def getChildNodes(kNode):
             newNode = Node.initWithRootNodeAndState(kNode,newState)
             childNodes.append(newNode)
 
+    
+    #uncomment following block to print children of particular node
+
+    """
     if len(childNodes)>0:
         print "Parent",
         kNode.printState()
         print "The children are...."
         for c in childNodes:
             c.printState()
-   
+    """
+
+
     return childNodes
     
 
@@ -131,7 +137,7 @@ def getNextNodeUsingTotalStepsToTravel(kGoalState):
     if len(solutions)>0 and solutions[0] != None:
         pnode = solutions[0];
         pcost = getTotalStepsToReachGoalState(pnode,kGoalState)
-        print pnode, pcost
+       # print pnode, pcost
        # raw_input()
        
 
@@ -192,8 +198,8 @@ def getNextNodeUsingCellDiff(kGoalState):
     if len(solutions)>0 and solutions[0] != None:
         pnode = solutions[0];
         pcost = getHValueForNode(pnode,kGoalState)
-        print pnode, pcost
-        raw_input()
+        #print pnode, pcost
+       # raw_input()
        
 
 
@@ -241,7 +247,7 @@ def informed(kParentNode,kGoalState,kLimit):
     while len(fringe) > 0 and kLimit > 0:
         # get next node fromt the fringe
         print "getting next from queue..."
-        printQueue()
+        #printQueue()
 
         #remove this condition and make seperate functions for different heuristic
         nextNode = None
@@ -253,7 +259,7 @@ def informed(kParentNode,kGoalState,kLimit):
 
         #fringe exhausted
         if nextNode == None:
-            raw_input("Find")
+           # raw_input("Find")
             return solutions,totalNodeVisited
 
 
@@ -270,7 +276,7 @@ def informed(kParentNode,kGoalState,kLimit):
         if nextNode.isSameStateAs(kGoalState):
             print " goal state found"
             solutions.append(nextNode)
-            raw_input()
+           # raw_input()
         else:
             pass
 
@@ -303,19 +309,13 @@ def bfs(kParentNode,kGoalState,kLimit):
     #clear the visited nodes list
     visitedStates = []
 
-
-
-
-    
-    depth = 0
-    idx = 0
     nodesvisited = 0
 
     while len(fringe) > 0 and kLimit > 0:
        
         # get next node fromt the fringe
         print "getting next from queue..."
-        printQueue()
+        #printQueue()
        
         nextNode =  getNextNode()
         nextNode.visited = True
@@ -332,7 +332,8 @@ def bfs(kParentNode,kGoalState,kLimit):
             print " goal state found"
             return nextNode, nodesvisited
         else:
-            print " not goal state"
+            pass
+            #print " not goal state"
 
 
 
@@ -375,7 +376,7 @@ def makeState(*args,**kwargs):
 
 
 
-def testiUninformedSearch(kInitialState,kgoalState,kLimit):
+def testUninformedSearch(kInitialState,kgoalState,kLimit):
     """
     perform blind search
     BFS
@@ -402,6 +403,9 @@ def testiUninformedSearch(kInitialState,kgoalState,kLimit):
         print "------Uninformed Search (BFS) ---------: ",goalnNode.level,nodesChecked
         goalnNode.printPath()
         return goalnNode,nodesChecked
+    else:
+        print "-------Could not find result------"
+
 
    
     return None,nodesChecked
@@ -419,6 +423,9 @@ def testInformedSearch(kInitialState,kgoalState,kLimit):
 
 
     global fringe
+    global fHeu
+
+    fHeu  = False
 
     #empty fringe
 
@@ -432,13 +439,153 @@ def testInformedSearch(kInitialState,kgoalState,kLimit):
        
 
     if sol and sol[0] != None:
-        print "------Informed search : ---------: ",sol[0].level,nodesVisited
+        print "------Informed search Result --------- "
         sol[0].printPath()
+        print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited
         return sol[0],nodesVisited
+    else:
+        print "----Solution not found----"
 
-    raw_input()
 
     return None,nodesVisited
+
+
+
+def testInformedSearchOne(kInitialState,kgoalState,kLimit):
+
+    """
+    perform A* search 
+    """
+
+
+    global fringe
+    global fHeu
+
+    fHeu  = True
+
+    #empty fringe
+
+    fringe = []
+
+    root = Node.initRootNodeWithState(kInitialState)
+    fringe.append(root)
+    sol,nodesVisited = informed(root,kgoalState,kLimit)
+
+
+       
+
+    if sol and sol[0] != None:
+        print "------Informed search Result --------- "
+        sol[0].printPath()
+        print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited
+        return sol[0],nodesVisited
+    else:
+        print "----Solution not found----"
+
+
+    return None,nodesVisited
+
+
+
+
+def testInformedSearchTwo(kInitialState,kgoalState,kLimit):
+
+    """
+    perform A* search 
+    """
+
+
+    global fringe
+    global fHeu
+
+    fHeu  = False
+
+    #empty fringe
+
+    fringe = []
+
+    root = Node.initRootNodeWithState(kInitialState)
+    fringe.append(root)
+    sol,nodesVisited = informed(root,kgoalState,kLimit)
+
+
+       
+
+    if sol and sol[0] != None:
+        print "------Informed search Result --------- "
+        sol[0].printPath()
+        print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited
+        return sol[0],nodesVisited
+    else:
+        print "----Solution not found----"
+
+
+    return None,nodesVisited
+
+
+def executeTestCases(testcaseList,goalState,searchType):
+    """
+
+    perform test based on the search Type
+
+    """
+
+    global fHeu
+
+    if searchType == SearchMethod.CELL_DIFF or searchType == SearchMethod.MANHATTAN:
+        
+        #set the flag for first heuristic
+        fHeu = True if searchType == SearchMethod.CELL_DIFF else False
+
+        logFile  = getFileHandle(searchType,True)
+
+
+        for index,initialState in enumerate(testcaseList):
+
+            #perform initial test and write result to the file
+            
+            startTime  = time.time()
+            finalNode,searchCost =  testInformedSearch(initialState,goalState,2000)
+            endTime = time.time()
+            timeDiff = endTime-startTime
+            
+            level = -1
+            
+            if finalNode !=  None:
+                finalNode.printPath()
+                level = finalNode.level
+                print "INF COST:",searchCost," | INFORMED DEPTH:",level,"| DURAIION :",timeDiff," secs"
+            else:
+                print "Cannot find solution Cost:",searchCost," | DURATION ",timeDiff," secs"
+
+
+            #write result to file
+            logFile.writerow([index+1,searchCost,level,timeDiff])
+
+    elif searchType == SearchMethod.BFS:
+
+        logFile = getFileHandle(searchType,True)
+
+        for index,initialState in enumerate(testcaseList):
+
+            startTime  = time.time()
+            finalNode,searchCost = testUninformedSearch(initialState,goalState,100000)
+            endTime = time.time()
+
+            timeDiff = endTime-startTime
+            
+            level = -1
+            
+            if finalNode !=  None:
+                finalNode.printPath()
+                level = finalNode.level
+                print "BFS COST:",searchCost," | BFS  DEPTH:",level,"| DURAIION :",timeDiff," secs"
+            else:
+                print "Cannot find solution Cost:",searchCost," | DURATION ",timeDiff," secs"
+
+            #write result to file
+            logFile.writerow([index+1,searchCost,level,timeDiff])
+
 
 
 
@@ -479,77 +626,12 @@ def main():
 
 
 
-    testcases = [initialState1,initialState2,initialState3,initialState4,initialState5,initialState6,initialState7,initialState8]
-
-    initialState = initialState20
-    test_no = 19
-
-    global fHeu
-
-    fHeu = False
+    testcases = [initialState1,initialState2,initialState3,initialState4,initialState5,initialState6,initialState7,initialState8,initialState9,initialState10,initialState11,initialState12,initialState13,initialState14,initialState15,initialState16,initialState17,initialState18,initialState19,initialState20]
 
 
-    
-
-
-    #bfsGoalNode,bfsCost = testiUninformedSearch(initialState,goalState,2000)
-    startTime  = time.time()
-    iGoalNode,iCost = testInformedSearch(initialState,goalState,2000)
-    endTime = time.time()
-    timeDiff = endTime-startTime
-
-
-
-
-    print "\n"*100
-    #print "BFS RESULT"
-    #if bfsGoalNode != None:
-    #    bfsGoalNode.printPath()
-    #    print "BFS COST:",bfsCost,"BFS DEPTH:",bfsGoalNode.level
-    #else: 
-    #    print "BFS COST:",bfsCost
-
-    print ""
-    print "INFORMED SEARCH  RESULT"
-
-
-
-    searchCost = iCost
-    level = -1
-    if iGoalNode !=  None:
-        iGoalNode.printPath()
-        level = iGoalNode.level
-        print "INF COST:",searchCost,"INFORMED DEPTH:",iGoalNode.level,timeDiff," secs"
-    else:
-        print "Cannot find solution Cost:",searchCost,timeDiff," secs"
-
-
-"""
-    if fHeu == True:
-        r = csv.writer(open('firstHeu.csv','ab+'))
-        r.writerow([test_no,searchCost,level,endTime-startTime])
-    else:
-        r = csv.writer(open('secondHeu.csv','ab+'))
-        r.writerow([test_no,searchCost,level,endTime-startTime])
-"""
-
-
-
-    #goalState.printBoard()
-    #root = Node.initRootNodeWithState(initialState)
-    #root.printState();
-    #global fringe
-    #fringe.append(root)
-    
-    
-    #goalnNode,depth = bfs(root,goalState,10);
-    #print "------depth---------: ",goalnNode.level,depth
-    #goalnNode.printPath()
-
-    #return
-    #sol,nodesVisited = informed(root,goalState,10)
-    #print "------depth---------: ",sol[0].level,nodesVisited
-    #sol[0].printPath()
+    #executeTestCases(testcases,goalState,SearchMethod.CELL_DIFF)
+    #executeTestCases(testcases,goalState,SearchMethod.MANHATTAN)
+    executeTestCases(testcases,goalState,SearchMethod.BFS)
 
 
 

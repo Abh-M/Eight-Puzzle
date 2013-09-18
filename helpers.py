@@ -1,4 +1,4 @@
-
+import csv
 
 
 
@@ -55,7 +55,7 @@ def areStatesSame(s1,s2):
 
 
 
-def AgetFileHandle(searchMethod, purge = True):
+def getFileHandle(kSearchType, purge = True):
     
     """
     create csv writer for appropriate file and return it
@@ -64,14 +64,14 @@ def AgetFileHandle(searchMethod, purge = True):
                  2  -> mahnattan distance heuristic
     """
 
-    fileName =  "BFS.CSV" if searchmethod == 1 else "CellDiff.csv" if searchmethod == 1 else "Manhattan.csv"
+    fileName =  "BFS.CSV" if kSearchType == SearchMethod.BFS else "CellDiff.csv" if kSearchType == SearchMethod.CELL_DIFF else "Manhattan.csv"
     
     openMode  = "wb+" if purge == True else "ab+"
 
     csvWriter = csv.writer(open(fileName,openMode))
 
 
-    return csvwrite
+    return csvWriter
 
 
 
