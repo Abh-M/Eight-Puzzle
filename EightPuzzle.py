@@ -397,18 +397,24 @@ def testUninformedSearch(kInitialState,kgoalState,kLimit):
     #root.printState();
     fringe.append(root)
     
-    
+   
+    startTime = time.time()
     goalnNode,nodesChecked = bfs(root,kgoalState,kLimit);
+    endTime = time.time()
+
+    timeDiff = endTime - startTime
+
     if goalnNode != None:
-        print "------Uninformed Search (BFS) ---------: ",goalnNode.level,nodesChecked
+        print "------Uninformed Search (BFS) ---------: ",
         goalnNode.printPath()
-        return goalnNode,nodesChecked
+        print "Depth :",goalnNode.level,"| Nodes Visisted :",nodesChecked,"| Duration :",timeDiff,"seconds"
+        return goalnNode,nodesChecked,timeDiff
     else:
         print "-------Could not find result------"
 
 
    
-    return None,nodesChecked
+    return None,nodesChecked,timeDiff
 
     
 
@@ -433,21 +439,25 @@ def testInformedSearch(kInitialState,kgoalState,kLimit):
 
     root = Node.initRootNodeWithState(kInitialState)
     fringe.append(root)
-    sol,nodesVisited = informed(root,kgoalState,kLimit)
 
+    startTime = time.time()
+    sol,nodesVisited = informed(root,kgoalState,kLimit)
+    endTime = time.time()
+
+    timeDiff = endTime - startTime()
 
        
 
     if sol and sol[0] != None:
         print "------Informed search Result --------- "
         sol[0].printPath()
-        print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited
-        return sol[0],nodesVisited
+        print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited," | Duration :",timeDiff,"seconds"
+        return sol[0],nodesVisited,timeDiff
     else:
         print "----Solution not found----"
 
 
-    return None,nodesVisited
+    return None,nodesVisited,timeDiff
 
 
 
@@ -469,21 +479,24 @@ def testInformedSearchOne(kInitialState,kgoalState,kLimit):
 
     root = Node.initRootNodeWithState(kInitialState)
     fringe.append(root)
+
+    startTime = time.time()
     sol,nodesVisited = informed(root,kgoalState,kLimit)
+    endTime = time.time()
 
-
+    timeDiff = endTime - startTime
        
 
     if sol and sol[0] != None:
-        print "------Informed search Result --------- "
+        print "------Informed search one Result --------- "
         sol[0].printPath()
-        print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited
-        return sol[0],nodesVisited
+        print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited," | Duration :",timeDiff,"Seconds"
+        return sol[0],nodesVisited,timeDiff
     else:
         print "----Solution not found----"
 
 
-    return None,nodesVisited
+    return None,nodesVisited,timeDiff
 
 
 
@@ -506,134 +519,86 @@ def testInformedSearchTwo(kInitialState,kgoalState,kLimit):
 
     root = Node.initRootNodeWithState(kInitialState)
     fringe.append(root)
+    startTime = time.time()
     sol,nodesVisited = informed(root,kgoalState,kLimit)
-
+    endTime = time.time()
+    timeDiff = endTime - startTime
 
        
 
     if sol and sol[0] != None:
         print "------Informed search Result --------- "
         sol[0].printPath()
-        print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited
-        return sol[0],nodesVisited
+        print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited," | Duration:",timeDiff,"seconds"
+        return sol[0],nodesVisited,timeDiff
     else:
         print "----Solution not found----"
 
 
-    return None,nodesVisited
+    return None,nodesVisited,timeDiff
 
 
-def executeTestCases(testcaseList,goalState,searchType):
-    """
-
-    perform test based on the search Type
-
-    """
-
-    global fHeu
-
-    if searchType == SearchMethod.CELL_DIFF or searchType == SearchMethod.MANHATTAN:
-        
-        #set the flag for first heuristic
-        fHeu = True if searchType == SearchMethod.CELL_DIFF else False
-
-        logFile  = getFileHandle(searchType,True)
-
-
-        for index,initialState in enumerate(testcaseList):
-
-            #perform initial test and write result to the file
-            
-            startTime  = time.time()
-            finalNode,searchCost =  testInformedSearch(initialState,goalState,2000)
-            endTime = time.time()
-            timeDiff = endTime-startTime
-            
-            level = -1
-            
-            if finalNode !=  None:
-                finalNode.printPath()
-                level = finalNode.level
-                print "INF COST:",searchCost," | INFORMED DEPTH:",level,"| DURAIION :",timeDiff," secs"
-            else:
-                print "Cannot find solution Cost:",searchCost," | DURATION ",timeDiff," secs"
-
-
-            #write result to file
-            logFile.writerow([index+1,searchCost,level,timeDiff])
-
-    elif searchType == SearchMethod.BFS:
-
-        logFile = getFileHandle(searchType,True)
-
-        for index,initialState in enumerate(testcaseList):
-
-            startTime  = time.time()
-            finalNode,searchCost = testUninformedSearch(initialState,goalState,100000)
-            endTime = time.time()
-
-            timeDiff = endTime-startTime
-            
-            level = -1
-            
-            if finalNode !=  None:
-                finalNode.printPath()
-                level = finalNode.level
-                print "BFS COST:",searchCost," | BFS  DEPTH:",level,"| DURAIION :",timeDiff," secs"
-            else:
-                print "Cannot find solution Cost:",searchCost," | DURATION ",timeDiff," secs"
-
-            #write result to file
-            logFile.writerow([index+1,searchCost,level,timeDiff])
-
-
-
+#def executeTestCases(testcaseList,goalState,searchType):
+#    """
+#
+#    perform test based on the search Type
+#
+#    """
+#
+#    global fHeu
+#
+#    if searchType == SearchMethod.CELL_DIFF or searchType == SearchMethod.MANHATTAN:
+#        
+#        #set the flag for first heuristic
+#        fHeu = True if searchType == SearchMethod.CELL_DIFF else False
+#
+#        logFile  = getFileHandle(searchType,True)
+#
+#
+#        for index,initialState in enumerate(testcaseList):
+#
+#            #perform initial test and write result to the file
+#            
+#            finalNode,searchCost,timeDiff  =  testInformedSearch(initialState,goalState,2000)
+#            
+#            level = -1
+#            
+#            if finalNode !=  None:
+#                finalNode.printPath()
+#                level = finalNode.level
+#                print "INF COST:",searchCost," | INFORMED DEPTH:",level,"| DURAIION :",timeDiff," secs"
+#            else:
+#                print "Cannot find solution Cost:",searchCost," | DURATION ",timeDiff," secs"
+#
+#
+#            #write result to file
+#            logFile.writerow([index+1,searchCost,level,timeDiff])
+#
+#    elif searchType == SearchMethod.BFS:
+#
+#        logFile = getFileHandle(searchType,True)
+#
+#        for index,initialState in enumerate(testcaseList):
+#
+#            finalNode,searchCost,timeDiff  = testUninformedSearch(initialState,goalState,100000)
+#
+#            level = -1
+#            
+#            if finalNode !=  None:
+#                finalNode.printPath()
+#                level = finalNode.level
+#                print "BFS COST:",searchCost," | BFS  DEPTH:",level,"| DURAIION :",timeDiff," secs"
+#            else:
+#                print "Cannot find solution Cost:",searchCost," | DURATION ",timeDiff," secs"
+#
+#            #write result to file
+#            logFile.writerow([index+1,searchCost,level,timeDiff])
+#
+#
+#
 
 def main():
-    goalState  = makeState(1,2,3,4,5,6,7,8,'blank') 
-
-    # First group of test cases - should have solutions with depth <= 5
-    initialState1 = makeState(2, "blank", 3, 1, 5, 6, 4, 7, 8)
-    initialState2 = makeState(1, 2, 3, "blank", 4, 6, 7, 5, 8)
-    initialState3 = makeState(1, 2, 3, 4, 5, 6, 7, "blank", 8)
-    initialState4 = makeState(1, "blank", 3, 5, 2, 6, 4, 7, 8)
-    initialState5 = makeState(1, 2, 3, 4, 8, 5, 7, "blank", 6)
-
-
-    # Second group of test cases - should have solutions with depth <= 10
-    initialState6 = makeState(2, 8, 3, 1, "blank", 5, 4, 7, 6)
-    initialState7 = makeState(1, 2, 3, 4, 5, 6, "blank", 7, 8)
-    initialState8 = makeState("blank", 2, 3, 1, 5, 6, 4, 7, 8)
-    initialState9 = makeState(1, 3, "blank", 4, 2, 6, 7, 5, 8)
-    initialState10 = makeState(1, 3, "blank", 4, 2, 5, 7, 8, 6)
-
-
-    # Third group of test cases - should have solutions with depth <= 20
-    initialState11 = makeState("blank", 5, 3, 2, 1, 6, 4, 7, 8)
-    initialState12 = makeState(5, 1, 3, 2, "blank", 6, 4, 7, 8)
-    initialState13 = makeState(2, 3, 8, 1, 6, 5, 4, 7, "blank")
-    initialState14 = makeState(1, 2, 3, 5, "blank", 6, 4, 7, 8)
-    initialState15 = makeState("blank", 3, 6, 2, 1, 5, 4, 7, 8)
-
-
-    # Fourth group of test cases - should have solutions with depth <= 50
-    initialState16 = makeState(2, 6, 5, 4, "blank", 3, 7, 1, 8)
-    initialState17 = makeState(3, 6, "blank", 5, 7, 8, 2, 1, 4)
-    initialState18 = makeState(1, 5, "blank", 2, 3, 8, 4, 6, 7)
-    initialState19 = makeState(2, 5, 3, 4, "blank", 8, 6, 1, 7)
-    initialState20 = makeState(3, 8, 5, 1, 6, 7, 4, 2, "blank")
-
-
-
-
-    testcases = [initialState1,initialState2,initialState3,initialState4,initialState5,initialState6,initialState7,initialState8,initialState9,initialState10,initialState11,initialState12,initialState13,initialState14,initialState15,initialState16,initialState17,initialState18,initialState19,initialState20]
-
-
-    #executeTestCases(testcases,goalState,SearchMethod.CELL_DIFF)
-    #executeTestCases(testcases,goalState,SearchMethod.MANHATTAN)
-    executeTestCases(testcases,goalState,SearchMethod.BFS)
-
-
+    pass
 
 
 if __name__ == '__main__':
