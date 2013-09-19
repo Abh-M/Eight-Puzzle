@@ -49,10 +49,12 @@ initialState20 = makeState(3, 8, 5, 1, 6, 7, 4, 2, "blank")
 
 
 
-initialState = initialState1
+initialState = initialState20
 
 
+#testInformedSearchTwo(initialState,goalState,2000)
+#testInformedSearchOne(initialState,goalState,5000)
 
-testUninformedSearch(initialState5,goalState,10000)
-testInformedSearchOne(initialState,goalState,2000)
+testUninformedSearch(initialState,goalState,20000)
+#testInformedSearchOne(initialState,goalState,2000)
 

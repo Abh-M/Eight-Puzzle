@@ -410,6 +410,7 @@ def testUninformedSearch(kInitialState,kgoalState,kLimit):
         print "Depth :",goalnNode.level,"| Nodes Visisted :",nodesChecked,"| Duration :",timeDiff,"seconds"
         return goalnNode,nodesChecked,timeDiff
     else:
+        nodesChecked = 0
         print "-------Could not find result------"
 
 
@@ -454,6 +455,7 @@ def testInformedSearch(kInitialState,kgoalState,kLimit):
         print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited," | Duration :",timeDiff,"seconds"
         return sol[0],nodesVisited,timeDiff
     else:
+        nodesVisited = 0
         print "----Solution not found----"
 
 
@@ -493,6 +495,7 @@ def testInformedSearchOne(kInitialState,kgoalState,kLimit):
         print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited," | Duration :",timeDiff,"Seconds"
         return sol[0],nodesVisited,timeDiff
     else:
+        nodesVisited = 0
         print "----Solution not found----"
 
 
@@ -532,6 +535,7 @@ def testInformedSearchTwo(kInitialState,kgoalState,kLimit):
         print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited," | Duration:",timeDiff,"seconds"
         return sol[0],nodesVisited,timeDiff
     else:
+        nodesVisited = 0
         print "----Solution not found----"
 
 

@@ -26,6 +26,11 @@ def getFileHandle(kSearchType, purge = True):
 
     csvWriter = csv.writer(open(fileName,openMode))
 
+    if openMode == "wb+":
+        csvWriter.writerow(["#","Nodes Visisted","Path Length","Duration","Limit"])
+
+
+    
 
     return csvWriter
 
@@ -44,6 +49,7 @@ def executeTestCases(testcaseList,goalState,searchType):
 
         logFile  = getFileHandle(searchType,True)
 
+        limit = 5000
 
         for index,initialState in enumerate(testcaseList):
 
@@ -52,12 +58,12 @@ def executeTestCases(testcaseList,goalState,searchType):
             finalNode = None
             searchCost = 0
             timeDiff = 0
-            level = -1
+            level = 0
 
             if SearchMethod.CELL_DIFF == searchType:
-                finalNode,searchCost,timeDiff = testInformedSearchOne(initialState,goalState,2000)
+                finalNode,searchCost,timeDiff = testInformedSearchOne(initialState,goalState,limit)
             elif SearchMethod.MANHATTAN == searchType:
-                finalNode,searchType,timeDiff = testInformedSearchTwo(initialState,goalState,2000)
+                finalNode,searchType,timeDiff = testInformedSearchTwo(initialState,goalState,limit)
 
             
             
@@ -70,27 +76,30 @@ def executeTestCases(testcaseList,goalState,searchType):
 
 
             #write result to file
-            logFile.writerow([index+1,searchCost,level,timeDiff])
+            logFile.writerow([index+1,searchCost,level,timeDiff,limit])
 
     elif searchType == SearchMethod.BFS:
+
+        limit = 50000
 
         logFile = getFileHandle(searchType,True)
 
         for index,initialState in enumerate(testcaseList):
 
-            finalNode,searchCost,timeDiff  = testUninformedSearch(initialState,goalState,10000)
+            finalNode,searchCost,timeDiff  = testUninformedSearch(initialState,goalState,limit)
 
-            level = -1
+            level = 0
             
             if finalNode !=  None:
                 finalNode.printPath()
                 level = finalNode.level
+                
                 print "BFS COST:",searchCost," | BFS  DEPTH:",level,"| DURAIION :",timeDiff," secs"
             else:
                 print "Cannot find solution Cost:",searchCost," | DURATION ",timeDiff," secs"
 
             #write result to file
-            logFile.writerow([index+1,searchCost,level,timeDiff])
+            logFile.writerow([index+1,searchCost,level,timeDiff,limit])
 
 
 
@@ -138,9 +147,9 @@ def main():
     testcases = [initialState1,initialState2,initialState3,initialState4,initialState5,initialState6,initialState7,initialState8,initialState9,initialState10,initialState11,initialState12,initialState13,initialState14,initialState15,initialState16,initialState17,initialState18,initialState19,initialState20]
 
 
-    executeTestCases(testcases[0:6],goalState,SearchMethod.CELL_DIFF)
+    executeTestCases(testcases[0:20],goalState,SearchMethod.CELL_DIFF)
     #executeTestCases(testcases[0:6],goalState,SearchMethod.MANHATTAN)
-    #executeTestCases(testcases,goalState,SearchMethod.BFS)
+    #executeTestCases(testcases[0:12],goalState,SearchMethod.BFS)
 
 
 
