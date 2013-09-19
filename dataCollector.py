@@ -63,7 +63,7 @@ def executeTestCases(testcaseList,goalState,searchType):
             if SearchMethod.CELL_DIFF == searchType:
                 finalNode,searchCost,timeDiff = testInformedSearchOne(initialState,goalState,limit)
             elif SearchMethod.MANHATTAN == searchType:
-                finalNode,searchType,timeDiff = testInformedSearchTwo(initialState,goalState,limit)
+                finalNode,searchCost,timeDiff = testInformedSearchTwo(initialState,goalState,limit)
 
             
             
@@ -147,9 +147,9 @@ def main():
     testcases = [initialState1,initialState2,initialState3,initialState4,initialState5,initialState6,initialState7,initialState8,initialState9,initialState10,initialState11,initialState12,initialState13,initialState14,initialState15,initialState16,initialState17,initialState18,initialState19,initialState20]
 
 
-    executeTestCases(testcases[0:20],goalState,SearchMethod.CELL_DIFF)
-    #executeTestCases(testcases[0:6],goalState,SearchMethod.MANHATTAN)
-    #executeTestCases(testcases[0:12],goalState,SearchMethod.BFS)
+    #executeTestCases(testcases[0:20],goalState,SearchMethod.CELL_DIFF)
+    #executeTestCases(testcases[0:20],goalState,SearchMethod.MANHATTAN)
+    executeTestCases(testcases[0:20],goalState,SearchMethod.BFS)
 
 
 
