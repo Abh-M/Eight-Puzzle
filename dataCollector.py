@@ -149,7 +149,7 @@ def main():
 
     #executeTestCases(testcases[0:20],goalState,SearchMethod.CELL_DIFF)
     #executeTestCases(testcases[0:20],goalState,SearchMethod.MANHATTAN)
-    executeTestCases(testcases[0:20],goalState,SearchMethod.BFS)
+    #executeTestCases(testcases[0:20],goalState,SearchMethod.BFS)
 
 
 
