@@ -1,8 +1,8 @@
 
 
 
-
-"""from armajrik_informed import makeState
+"""
+from armajrik_informed import makeState
 from armajrik_informed import testInformedSearchOne
 from armajrik_informed import testInformedSearchTwo
 from armajrik_informed import testInformedSearch
@@ -56,7 +56,7 @@ initialState20 = makeState(3, 8, 5, 1, 6, 7, 4, 2, "blank")
 
 
 
-initialState = initialState11
+initialState = initialState13
 
 
 #testInformedSearchTwo(initialState,goalState,2000)
