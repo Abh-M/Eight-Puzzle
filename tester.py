@@ -1,18 +1,18 @@
 
 
 
-"""
+
 from armajrik_informed import makeState
 from armajrik_informed import testInformedSearchOne
 from armajrik_informed import testInformedSearchTwo
 from armajrik_informed import testInformedSearch
 
 import time
-"""
 
+"""
 from armajrik_uninformed import makeState
 from armajrik_uninformed import testUninformedSearch
-
+"""
 
 
 
@@ -63,7 +63,7 @@ initialState = initialState11
 #raw_input()
 #testInformedSearchOne(initialState,goalState,5000)
 #raw_input()
-testUninformedSearch(initialState,goalState,20000)
-#testInformedSearchOne(initialState,goalState,2000)
+#testUninformedSearch(initialState,goalState,20000)
+testInformedSearch(initialState,goalState,2000)
 #raw_input()
 

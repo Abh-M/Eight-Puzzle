@@ -328,7 +328,7 @@ def testInformedSearch(kInitialState,kgoalState,kLimit):
     sol,nodesVisited = informed(root,kgoalState,kLimit)
     endTime = time.time()
 
-    timeDiff = endTime - startTime()
+    timeDiff = endTime - startTime
 
        
 
@@ -373,7 +373,7 @@ def testInformedSearchOne(kInitialState,kgoalState,kLimit):
        
 
     if sol and sol[0] != None:
-        print "------Informed search one Result --------- "
+        print "------Informed search using heuristic one (Cell Difference)  Result --------- "
         sol[0].printPath()
         print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited," | Duration :",timeDiff,"Seconds"
         return sol[0],nodesVisited,timeDiff
@@ -413,7 +413,7 @@ def testInformedSearchTwo(kInitialState,kgoalState,kLimit):
        
 
     if sol and sol[0] != None:
-        print "------Informed search Result --------- "
+        print "------Informed search Result using heuristic two (Manhattan Distance)  --------- "
         sol[0].printPath()
         print "Depth : ",sol[0].level," | Nodes Visited :",nodesVisited," | Duration:",timeDiff,"seconds"
         return sol[0],nodesVisited,timeDiff

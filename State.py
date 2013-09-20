@@ -153,7 +153,6 @@ class State:
 
         diff = 0
 
-        print "next ***************"
     
         for row in range(0,3):
             for col in range(0,3):
@@ -162,7 +161,7 @@ class State:
                 trow,tcol = rolCol(goalStateMap[value])
                 d = abs(trow-row) + abs(tcol-col)
                 diff = diff + d
-                print "Diff for val",value,"is :",d," diff : ",diff
+#                print "Diff for val",value,"is :",d," diff : ",diff
             
 
         
