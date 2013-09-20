@@ -1,10 +1,17 @@
 
 
 
+"""
+from armajrik_informed import makeState
+from armajrik_informed import testInformedSearchOne
+from armajrik_informed import testInformedSearchTwo
+from armajrik_informed import testInformedSearch
 
-from EightPuzzle import *
 import time
+"""
 
+from armajrik_uninformed import makeState
+from armajrik_uninformed import testUninformedSearch
 
 
 
@@ -49,12 +56,14 @@ initialState20 = makeState(3, 8, 5, 1, 6, 7, 4, 2, "blank")
 
 
 
-initialState = initialState20
+initialState = initialState11
 
 
-testInformedSearchTwo(initialState,goalState,2000)
+#testInformedSearchTwo(initialState,goalState,2000)
+#raw_input()
 #testInformedSearchOne(initialState,goalState,5000)
-
-#testUninformedSearch(initialState,goalState,20000)
+#raw_input()
+testUninformedSearch(initialState,goalState,20000)
 #testInformedSearchOne(initialState,goalState,2000)
+#raw_input()
 
